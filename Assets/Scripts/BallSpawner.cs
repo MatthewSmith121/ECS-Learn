@@ -8,8 +8,9 @@ public class BallSpawner : MonoBehaviour
 
     [Header("Non-Ecs")]
     public GameObject[] ballPrefabs;
-    int spawnNumber = 600;
+    public int spawnNumber = 1000;
     int spawnCount = 0;
+    public float spawnBound = 500f;
 
     [Header("ECS")]
     EntityManager manager;
@@ -18,24 +19,26 @@ public class BallSpawner : MonoBehaviour
     void Start() {
         if (useEcs) {
             ballEntityPrefabs = new Entity[ballPrefabs.Length];
-            manager = World.Active.EntityManager;
+            manager = World.DefaultGameObjectInjectionWorld.EntityManager;
             // Turn GameObject into Entity
             for (int i = 0; i < ballPrefabs.Length; i++) {
-                ballEntityPrefabs[i] = GameObjectConversionUtility.ConvertGameObjectHierarchy(ballPrefabs[i], World.Active);
+                ballEntityPrefabs[i] = GameObjectConversionUtility.ConvertGameObjectHierarchy(ballPrefabs[i], GameObjectConversionSettings.FromWorld(World.DefaultGameObjectInjectionWorld, null));
             }
         }
     }
 
     private void Update() {
         if (spawnCount < spawnNumber) {
-            float x = Random.Range(-45f, 45f);
-            float z = Random.Range(-45f, 45f);
+            float x = Random.Range(-spawnBound, spawnBound);
+            float z = Random.Range(-spawnBound, spawnBound);
             if (useEcs) {
                 SpawnBallECS(new Vector3(x, 10, z));
             } else {
                 Instantiate(ballPrefabs[Random.Range(0, ballPrefabs.Length)], new Vector3(x, 10, z), Quaternion.identity);
             }
             spawnCount++;
+        } else {
+            Destroy(gameObject);
         }
     }
 
