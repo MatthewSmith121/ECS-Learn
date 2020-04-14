@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 5492629881817163561, guid: 79e8d5835cf4aff4c95af7b6df3ca632,
         type: 3}
       propertyPath: m_Name
-      value: BallRed
+      value: BallRed Variant
       objectReference: {fileID: 0}
     - target: {fileID: 5492629881817163563, guid: 79e8d5835cf4aff4c95af7b6df3ca632,
         type: 3}
@@ -71,6 +71,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5492629881817163566, guid: 79e8d5835cf4aff4c95af7b6df3ca632,
+        type: 3}
+      propertyPath: m_Mass
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 79e8d5835cf4aff4c95af7b6df3ca632, type: 3}
