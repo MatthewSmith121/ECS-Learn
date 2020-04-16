@@ -10,6 +10,8 @@ public class BallSpawner : MonoBehaviour
     public GameObject[] ballPrefabs;
     int spawnNumber = 600;
     int spawnCount = 0;
+    float spawnDistance = 75;
+    const float sAdjustment = 2;
 
     [Header("ECS")]
     EntityManager manager;
@@ -28,10 +30,10 @@ public class BallSpawner : MonoBehaviour
 
     private void Update() {
         if (spawnCount < spawnNumber) {
-            float x = Random.Range(-45f, 45f);
-            float z = Random.Range(-45f, 45f);
+            float x = Random.Range(-spawnDistance + sAdjustment, spawnDistance - sAdjustment);
+            float z = Random.Range(-spawnDistance + sAdjustment, spawnDistance - sAdjustment);
             if (useEcs) {
-                SpawnBallECS(new Vector3(x, 10, z));
+                SpawnBallECS(new Vector3(x, 15.5f, z));
             } else {
                 Instantiate(ballPrefabs[Random.Range(0, ballPrefabs.Length)], new Vector3(x, 10, z), Quaternion.identity);
             }
