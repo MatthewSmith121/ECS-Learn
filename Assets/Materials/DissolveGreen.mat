@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Dissolve
+  m_Name: DissolveGreen
   m_Shader: {fileID: -6465566751694194690, guid: c796c2b53861e194c85ed6b75ad2d967,
     type: 3}
   m_ShaderKeywords: 
@@ -86,7 +86,7 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - Color_6FE64A44: {r: 0, g: 6.024712, b: 18.17801, a: 0}
+    - Color_6FE64A44: {r: 0, g: 24.269072, b: 0, a: 0}
     - _BaseColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
