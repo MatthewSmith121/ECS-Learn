@@ -20,4 +20,8 @@ public class Settings : MonoBehaviour
     public static Vector3 PlayerPosition {
         get { return instance.player.position; }
     }
+
+    public static Quaternion PlayerRotation {
+        get { return instance.player.rotation;  }
+    }
 }
