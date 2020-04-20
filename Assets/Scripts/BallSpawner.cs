@@ -38,6 +38,8 @@ public class BallSpawner : MonoBehaviour
                 Instantiate(ballPrefabs[Random.Range(0, ballPrefabs.Length)], new Vector3(x, 10, z), Quaternion.identity);
             }
             spawnCount++;
+        } else {
+            Settings.SpawnerFinished();
         }
     }
 

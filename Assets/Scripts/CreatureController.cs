@@ -8,6 +8,8 @@ public class CreatureController : MonoBehaviour
     GameObject destinationPathObject;
     public float speed = 3f;
     public float playerThreshold = 40f;
+    bool gameOver;
+    public bool toggleLose = true;
 
     void Start() {
         transform.position = new Vector3(startingPathObject.transform.position.x, transform.position.y, startingPathObject.transform.position.z);
@@ -16,12 +18,14 @@ public class CreatureController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(Vector3.Distance(player.position, transform.position));
+        if (gameOver) {
+            return;
+        }
         // Rotate towards a target destination, either player or ai path object
         Transform target = destinationPathObject.transform; /// default to this
 
         // If player is nearby, move toward player
-        if (Vector3.Distance(player.position, transform.position) < playerThreshold) {
+        if (Vector3.Distance(player.position, transform.position) < playerThreshold && !Settings.isPlayerOnPedestal()) {
             // Face the player
             target = player;
         }
@@ -58,6 +62,18 @@ public class CreatureController : MonoBehaviour
             nextTarget = po.neighbours[0];
         }
         return nextTarget;
+    }
+
+
+    private void OnTriggerEnter(Collider other) {
+        if (other.tag == "Player" && toggleLose) {
+            other.gameObject.GetComponent<PlayerController>().PlayerDied();
+            SetGameOver(true);
+        }   
+    }
+
+    public void SetGameOver(bool val) {
+        gameOver = val;
     }
 
     private Vector3 EqualLevel(Vector3 v) {

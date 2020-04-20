@@ -17,13 +17,11 @@ public class Activate : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other) {
-        Debug.Log("Enter");
         activateText.enabled = true;
         inRange = true;
     }
 
     private void OnTriggerExit(Collider other) {
-        Debug.Log("Exit");
         activateText.enabled = false;
         inRange = false;
     }
@@ -44,7 +42,7 @@ public class Activate : MonoBehaviour
         }   
 
         if (Input.GetKeyDown(KeyCode.E)) {
-            //magicItem.SetActive(false);
+            Settings.ItemActivated();
             dissolve = true;
         }
     }
