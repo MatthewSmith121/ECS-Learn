@@ -40,6 +40,7 @@ public class BallSpawner : MonoBehaviour
             spawnCount++;
         } else {
             Settings.SpawnerFinished();
+            Destroy(gameObject);
         }
     }
 

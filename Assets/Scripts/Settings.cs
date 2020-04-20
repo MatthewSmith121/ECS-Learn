@@ -9,6 +9,7 @@ public class Settings : MonoBehaviour
     int itemsActivated;
     int doneSpawning;
     bool playerOnPedestal;
+    int numberOfSpawners = 20;
 
     [Header("Game Object References")]
     public Transform player;
@@ -46,15 +47,19 @@ public class Settings : MonoBehaviour
     public static void SpawnerFinished() {
         instance.doneSpawning++;
         // Turn pedestal colliders to triggers
-        if (instance.doneSpawning >= 21) {
+        if (instance.doneSpawning >= instance.numberOfSpawners) {
             foreach (GameObject sc in instance.pedestalColliders) {
                 sc.GetComponent<SphereCollider>().isTrigger = true;
             }
         }
     }
 
+    public static int GetNumberOfSpawners() {
+        return instance.numberOfSpawners;
+    }
+
     public static bool DoneSpawning() {
-        return instance.doneSpawning >= 21;
+        return instance.doneSpawning >= instance.numberOfSpawners;
     }
 
     public static void TogglePlayerOnPedestal() {
