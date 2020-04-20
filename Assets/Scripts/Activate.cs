@@ -8,16 +8,19 @@ public class Activate : MonoBehaviour
     public GameObject magicItem;
     Material dissolveMaterial;
     bool inRange;
-    bool dissolve;
+    bool dissolve; // for tracking dissolving
     float dissolveAmount;
     const float dissolveSpeed = 1f;
+    bool activated; // for tracking activate text visibility
 
     private void Start() {
         dissolveMaterial = magicItem.GetComponent<Renderer>().material;
     }
 
     private void OnTriggerEnter(Collider other) {
-        activateText.enabled = true;
+        if (!activated) {
+            activateText.enabled = true;
+        }
         inRange = true;
     }
 
@@ -43,7 +46,16 @@ public class Activate : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E)) {
             Settings.ItemActivated();
+            activated = true;
+            activateText.enabled = false;
             dissolve = true;
         }
+    }
+
+    public void Reset() {
+        dissolve = false;
+        dissolveAmount = 0;
+        activated = false;
+        dissolveMaterial.SetFloat("_DissolveAmount", dissolveAmount);
     }
 }

@@ -15,6 +15,7 @@ public class Settings : MonoBehaviour
     public Transform player;
     public Transform creature;
     GameObject[] pedestalColliders;
+    GameObject[] activatableItems;
 
     private void Awake() {
         if (instance != null && instance != this) {
@@ -26,6 +27,7 @@ public class Settings : MonoBehaviour
 
     private void Start() {
         pedestalColliders = GameObject.FindGameObjectsWithTag("Pedestal Collider");
+        activatableItems = GameObject.FindGameObjectsWithTag("Activatable");
     }
 
     public static Vector3 PlayerPosition {
@@ -68,5 +70,25 @@ public class Settings : MonoBehaviour
 
     public static bool isPlayerOnPedestal() {
         return instance.playerOnPedestal;
+    }
+
+    public static void Restart() {
+        // Reset Player
+        instance.player.GetComponent<PlayerController>().Reset();
+
+        // Reset Creature
+        instance.creature.GetComponent<CreatureController>().Reset();
+
+        // Reset Canvas
+        // ** Done in restart click in canvas controller ** //
+
+        // Reset Magic Items
+        foreach (GameObject go in instance.activatableItems) {
+            go.GetComponent<Activate>().Reset();
+        }
+
+        // Reset Settings
+        instance.itemsActivated = 0;
+        instance.playerOnPedestal = false;
     }
 }

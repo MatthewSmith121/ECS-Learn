@@ -12,6 +12,10 @@ public class CreatureController : MonoBehaviour
     public bool toggleLose = true;
 
     void Start() {
+        InitializePosition();
+    }
+
+    private void InitializePosition() {
         transform.position = new Vector3(startingPathObject.transform.position.x, transform.position.y, startingPathObject.transform.position.z);
         destinationPathObject = startingPathObject;
     }
@@ -78,5 +82,13 @@ public class CreatureController : MonoBehaviour
 
     private Vector3 EqualLevel(Vector3 v) {
         return new Vector3(v.x, transform.position.y, v.z);
+    }
+
+    public void Reset() {
+        // Resest position and destination
+        InitializePosition();
+
+        // Game not over
+        gameOver = false;
     }
 }
