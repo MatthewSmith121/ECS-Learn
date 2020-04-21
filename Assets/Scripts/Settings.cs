@@ -35,7 +35,15 @@ public class Settings : MonoBehaviour
     }
 
     public static Quaternion PlayerRotation {
-        get { return instance.player.rotation;  }
+        get { return instance.player.rotation; }
+    }
+
+    public static Vector3 CreaturePosition {
+        get { return instance.creature.position; }
+    }
+
+    public static Quaternion CreatureRotation {
+        get { return instance.creature.rotation; }
     }
 
     public static void ItemActivated() {

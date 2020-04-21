@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
+using Unity.Entities;
 
-public class CreatureController : MonoBehaviour
+[RequireComponent(typeof(Rigidbody))]
+public class CreatureController : MonoBehaviour, IConvertGameObjectToEntity
 {
     public Transform player;
     public float rotationSpeed = 1f;
@@ -8,11 +10,15 @@ public class CreatureController : MonoBehaviour
     GameObject destinationPathObject;
     public float speed = 3f;
     public float playerThreshold = 40f;
+    public float loseThreshold = 5f;
     bool gameOver;
     public bool toggleLose = true;
+    Rigidbody body;
 
     void Start() {
         InitializePosition();
+        Physics.IgnoreLayerCollision(9, 8); // Ignore collision between creature and floor
+        body = GetComponent<Rigidbody>();
     }
 
     private void InitializePosition() {
@@ -30,6 +36,11 @@ public class CreatureController : MonoBehaviour
 
         // If player is nearby, move toward player
         if (Vector3.Distance(player.position, transform.position) < playerThreshold && !Settings.isPlayerOnPedestal()) {
+            if (Vector3.Distance(player.position, transform.position) < loseThreshold) {
+                player.GetComponent<PlayerController>().PlayerDied();
+                SetGameOver(true);
+                return;
+            }
             // Face the player
             target = player;
         }
@@ -47,8 +58,7 @@ public class CreatureController : MonoBehaviour
         Quaternion lookRot = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * rotationSpeed);
 
-        transform.position += transform.forward * speed * Time.deltaTime;
-
+        body.MovePosition(body.position + transform.forward * speed * Time.deltaTime);
     }
 
     private GameObject GetNewDestinationTarget(PathObject po) {
@@ -69,12 +79,13 @@ public class CreatureController : MonoBehaviour
     }
 
 
-    private void OnTriggerEnter(Collider other) {
+    // Entity conversion can't handle both trigger collider and non-trigger collider
+    /*private void OnTriggerEnter(Collider other) {
         if (other.tag == "Player" && toggleLose) {
             other.gameObject.GetComponent<PlayerController>().PlayerDied();
             SetGameOver(true);
         }   
-    }
+    }*/
 
     public void SetGameOver(bool val) {
         gameOver = val;
@@ -90,5 +101,9 @@ public class CreatureController : MonoBehaviour
 
         // Game not over
         gameOver = false;
+    }
+
+    public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem) {
+        dstManager.AddComponent(entity, typeof(CreatureTag));
     }
 }
